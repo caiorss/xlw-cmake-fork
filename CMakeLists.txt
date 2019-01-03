@@ -23,7 +23,7 @@ add_library(xlw  ${XLW_SRC_FILES} xlw/include/xlw/xlw.def)
 target_include_directories(xlw PUBLIC xlw/include)
 set_source_files_properties(xlw.def PROPERTIES HEADER_FILE_ONLY TRUE)
 
-# Target:  mylib.dll => Then rename it to mylib.xll 
+# Target:  mylib.xll => Then rename it to mylib.xll 
 #----------------- Build Example =>> Excel XLL extension ---------#
 # https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
 add_library(mylib SHARED  xll_test1/mylib.cpp xll_test1/xlwmylib.cpp)
@@ -31,6 +31,12 @@ target_include_directories(mylib PRIVATE  xll_test1/)
 target_link_libraries(mylib PRIVATE xlw)
 set_target_properties(mylib PROPERTIES SUFFIX ".xll")
 
+add_custom_command(TARGET mylib POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy 
+  $<TARGET_FILE:mylib>                     # Source    
+  ${CMAKE_CURRENT_SOURCE_DIR}/mylib.xll    # Destination, file or directory 
+  # OR: ${CMAKE_CURRENT_SOURCE_DIR}/       # Directory destination. 
+)
 
 #---------------------------------------------------#
 #      Handwritten XLL Addins - Extensions          #
@@ -42,16 +48,15 @@ add_library(xlwExample SHARED examples/Handwritten/common_source/xlwExample.cpp 
 target_link_libraries(xlwExample PRIVATE xlw)
 set_target_properties(xlwExample PROPERTIES SUFFIX ".xll")
 
-add_custom_command(TARGET mylib POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy 
-  $<TARGET_FILE:mylib>                     # Source    
-  ${CMAKE_CURRENT_SOURCE_DIR}/mylib.xll    # Destination, file or directory 
-  # OR: ${CMAKE_CURRENT_SOURCE_DIR}/       # Directory destination. 
-)
 
-
+# Target: xlwCommands.xll 
+#---------------------
+add_library(xlwCommands SHARED examples/Handwritten/common_source/xlwCommands.cpp )
+target_link_libraries(xlwCommands PRIVATE xlw)
+set_target_properties(xlwCommands PROPERTIES SUFFIX ".xll")
 
 
 # Install at ./bin in project ROOT directory
 #--------------------------------------------------------------------
-install(TARGETS InterfaceGenerator xlw mylib xlwExample  DESTINATION  ${CMAKE_CURRENT_LIST_DIR}/bin)
+install(TARGETS InterfaceGenerator xlw mylib xlwExample xlwCommands 
+        DESTINATION  ${CMAKE_CURRENT_LIST_DIR}/bin)
