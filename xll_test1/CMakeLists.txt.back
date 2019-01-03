@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.9)
+project(xlw_test)
+set(CMAKE_CXX_STANDARD 98)     
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
+# set(CMAKE_BUILD_SHARED_LIBS true)
+
+
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
+# MAIN Target 
+add_library(mylib SHARED mylib.cpp xlwmylib.cpp)
+target_compile_definitions(mylib PRIVATE _ALLOW_MSC_VER_MISMATCH)
+target_include_directories(mylib PRIVATE "C:\\Users\\archbox\\xlw\\include")
+
+# \\xlw-vc120-mt-gd-5_0_2f0.lib
+find_library(XLW_LIB xlw-vc120-mt-gd-5_0_2f0 HINTS "C:\\Users\\archbox\\xlw\\lib")
+
+target_link_libraries(mylib PRIVATE ${XLW_LIB})
+
+
+add_custom_command(TARGET mylib POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy 
+  $<TARGET_FILE:mylib>                     # Source    
+  ${CMAKE_CURRENT_SOURCE_DIR}/mylib.xll    # Destination, file or directory 
+  # OR: ${CMAKE_CURRENT_SOURCE_DIR}/       # Directory destination. 
+)
+
+install(TARGETS mylib DESTINATION  ${CMAKE_CURRENT_SOURCE_DIR}/out)
+
+
+# install(TARGETS mylib LIBRARY DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/lib"
+                      #ARCHIVE DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/lib"
+                      #RUNTIME DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/bin"
+                      #COMPONENT library)
