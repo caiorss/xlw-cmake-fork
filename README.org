@@ -1,4 +1,4 @@
-* XLW - Wrapper for Excep C-Addin API Fok 
+* XLW - Wrapper for Excel C-Addin API
 
  + Original sources and credits:
    + http://xlw.sourceforge.net/
