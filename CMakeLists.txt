@@ -4,27 +4,27 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
-set(UILD_SHARED_LIBS TRUE)
+# set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+# set(UILD_SHARED_LIBS TRUE)
 
 
 #  Target: ./bin/InterfaceGenerator.exe 
 #---------------------------------------------------------------------
-file(GLOB SRC_FILES InterfaceGenerator/*.cpp)
+file(GLOB SRC_FILES xlw/InterfaceGenerator/*.cpp)
 add_executable(InterfaceGenerator ${SRC_FILES})
-target_include_directories(InterfaceGenerator PRIVATE "./InterfaceGenerator")
+target_include_directories(InterfaceGenerator PRIVATE "xlw/InterfaceGenerator")
 
 # Target: xlw.lib  - 
 # See: https://stackoverflow.com/questions/34659795/c
 #      https://cmake.org/Bug/view.php?id=7835
 #----------------------------------------------
-file(GLOB XLW_SRC_FILES src/*.cpp)
-add_library(xlw  ${XLW_SRC_FILES} include/xlw/xlw.def)
-target_include_directories(xlw PUBLIC ./include)
+file(GLOB XLW_SRC_FILES xlw/src/*.cpp)
+add_library(xlw  ${XLW_SRC_FILES} xlw/include/xlw/xlw.def)
+target_include_directories(xlw PUBLIC xlw/include)
 set_source_files_properties(xlw.def PROPERTIES HEADER_FILE_ONLY TRUE)
 
 
-#----------------- Build Example --------------------#
+#----------------- Build Example =>> Excel XLL extension ---------#
 # https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
 add_library(mylib SHARED  xll_test1/mylib.cpp xll_test1/xlwmylib.cpp)
 target_include_directories(mylib PRIVATE  xll_test1/)
@@ -34,8 +34,8 @@ target_link_libraries(mylib PRIVATE xlw)
 add_custom_command(TARGET mylib POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy 
   $<TARGET_FILE:mylib>                     # Source    
-  ${CMAKE_CURRENT_SOURCE_DIR}/mylib.xll     # Destination, file or directory 
-  # OR: ${CMAKE_CURRENT_SOURCE_DIR}/         # Directory destination. 
+  ${CMAKE_CURRENT_SOURCE_DIR}/mylib.xll    # Destination, file or directory 
+  # OR: ${CMAKE_CURRENT_SOURCE_DIR}/       # Directory destination. 
 )
 
 # Install 

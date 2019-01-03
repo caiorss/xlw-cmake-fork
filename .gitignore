@@ -6,4 +6,6 @@
 bin/*
 .vs/*
 *.exe
-                                
+*.xll
+.vs
+                                        
