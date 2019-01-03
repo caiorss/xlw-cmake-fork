@@ -8,8 +8,118 @@ CMake. The change of the building system from Visual Studio Solutions
 / MSBuild to CMake makes easier to compile the source code with new
 Mingw or Visual Studio versions. 
 
+ *Visual Studio Usage:*
 
-Authors:
+ 1. Clone the repository.
+
+ 2. Just open the project in Visual Studio 2017 or later. All CMake
+    targets will appear in the solution explorer. Then, it is possible
+    to build all sample Excel native extensions and install them
+    <PROJECT ROOT DIRECTORY>./bin.
+
+ 3. The extensions can be used in Excel by just dragging and dropping
+    the *.xll files to an Excel window.
+
+ *Command Line Compilation:*
+
+Configuration: (Generate project files and bulding scripts)
+
+#+BEGIN_SRC sh 
+  $ cmake -H. -Bcache -G "Visual Studio 15 2017"
+  -- The C compiler identification is MSVC 19.12.25835.0
+  -- The CXX compiler identification is MSVC 19.12.25835.0
+  -- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.12.25827/bin/Hostx86/x86/cl.exe
+   ... ...    ... ...    ... ...    ... ...    ... ...    ... ... 
+  -- Configuring done
+  -- Generating done
+  -- Build files have been written to: C:/Users/archbox/xlw/cache
+#+END_SRC
+
+Building: 
+
+#+BEGIN_SRC sh 
+    $ cmake --build cache --target install
+
+    Microsoft (R) Build Engine version 15.5.180.51428 for .NET Framework
+    Copyright (C) Microsoft Corporation. All rights reserved.
+
+    Build started 1/2/2019 7:54:41 PM.
+    Project "C:\Users\archbox\xlw\cache\install.vcxproj" on node 1 (default targets).
+    Project "C:\Users\archbox\xlw\cache\install.vcxproj" (1) is building "C:\Users\archbox\xlw\cache\ZERO_CHECK.vcxpr oj" (2) on node 1 (default targets).
+    PrepareForBuild:
+      Creating directory "Win32\Debug\ZERO_CHECK\".
+      Creating directory "C:\Users\archbox\xlw\cache\Debug\".
+      Creating directory "Win32\Debug\ZERO_CHECK\ZERO_CHECK.tlog\".
+
+     ... ...  ... ...  ... ...  ... ...  ... ...  ... ...  ... ...  ... ... 
+
+      -- Install configuration: "Debug"
+      -- Installing: C:/Users/archbox/xlw/bin/InterfaceGenerator.exe
+      -- Installing: C:/Users/archbox/xlw/bin/xlw.lib
+      -- Installing: C:/Users/archbox/xlw/bin/mylib.lib
+      -- Installing: C:/Users/archbox/xlw/bin/mylib.xll
+      -- Installing: C:/Users/archbox/xlw/bin/xlwExample.lib
+      -- Installing: C:/Users/archbox/xlw/bin/xlwExample.xll
+      -- Installing: C:/Users/archbox/xlw/bin/xlwCommands.lib
+      -- Installing: C:/Users/archbox/xlw/bin/xlwCommands.xll
+    FinalizeBuildStatus:
+      Deleting file "Win32\Debug\INSTALL\INSTALL.tlog\unsuccessfulbuild".
+      Touching "Win32\Debug\INSTALL\INSTALL.tlog\INSTALL.lastbuildstate".
+    Done Building Project "C:\Users\archbox\xlw\cache\install.vcxproj" (default targets).
+
+    Build succeeded.
+
+    "C:\Users\archbox\xlw\cache\install.vcxproj" (default target) (1) ->
+    "C:\Users\archbox\xlw\cache\ALL_BUILD.vcxproj" (default target) (3) ->
+    "C:\Users\archbox\xlw\cache\mylib.vcxproj" (default target) (5) ->
+    "C:\Users\archbox\xlw\cache\xlw.vcxproj" (default target) (6) ->
+    (ClCompile target) ->
+      C:\Users\archbox\xlw\xlw\src\PascalStringConversions.cpp(63): warning C4996: 'strncpy': This function or variab le may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See onli ne help for details. [C:\Users\archbox\xlw\cache\xlw.vcxproj]
+      C:\Users\archbox\xlw\xlw\src\PascalStringConversions.cpp(141): warning C4996: 'wcsncpy': This function or varia ble may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See onl ine help for details. [C:\Users\archbox\xlw\cache\xlw.vcxproj]
+      C:\Users\archbox\xlw\xlw\src\XlfExcel.cpp(141): warning C4838: conversion from 'short' to 'unsigned short' requ ires a narrowing conversion [C:\Users\archbox\xlw\cache\xlw.vcxproj]
+
+        3 Warning(s)
+        0 Error(s)
+
+    Time Elapsed 00:01:03.65
+#+END_SRC
+
+Compilation output: 
+
+#+BEGIN_SRC sh 
+   # Excel Extensions - Native XLL Addins 
+   #---------------------
+   $ tree /f bin
+   Folder PATH listing
+   Volume serial number is CEFD-3D70
+   C:\USERS\ARCHBOX\XLW\BIN
+       InterfaceGenerator.exe
+       mylib.lib
+       mylib.xll
+       xlw.lib
+       xlwCommands.lib
+       xlwCommands.xll
+       xlwExample.lib
+       xlwExample.xll
+
+   $ where file
+   C:\Program Files\Git\usr\bin\file.exe
+
+
+   C:\Users\archbox\xlw (master -> origin)
+   λ file bin\xlwCommands.xll
+   bin\xlwCommands.xll: PE32 executable (DLL) (console) Intel 80386, for MS Windows
+
+   C:\Users\archbox\xlw (master -> origin)
+   λ file bin\xlwCommands.lib
+   bin\xlwCommands.lib: current ar archive
+
+   $ file bin\InterfaceGenerator.exe
+   bin\InterfaceGenerator.exe: PE32 executable (console) Intel 80386, for MS Windows
+#+END_SRC
+
+
+ *XLW Authors:*
 
 #+BEGIN_SRC text 
   Jérôme Lecomte (xlw@ifrance.com) - xlw creator
