@@ -1,0 +1,11 @@
+* XLW - Wrapper for Excep C-Addin API Fok 
+
+ + Original sources and credits:
+   + http://xlw.sourceforge.net/
+
+This fork of the XLW project only changes the building system to
+CMake. The change of the building system from Visual Studio Solutions
+/ MSBuild to CMake makes easier to compile the source code with new
+Mingw or Visual Studio versions. 
+
+
