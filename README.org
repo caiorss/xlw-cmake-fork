@@ -1,6 +1,6 @@
 * XLW - Wrapper for Excel C-Addin API
 
- + Original sources and credits:
+ + Original sources and credits: (Version xlw-5.0.2f0)
    + http://xlw.sourceforge.net/
 
 This fork of the XLW project only changes the building system to
@@ -9,3 +9,12 @@ CMake. The change of the building system from Visual Studio Solutions
 Mingw or Visual Studio versions. 
 
 
+Authors:
+
+#+BEGIN_SRC text 
+  Jérôme Lecomte (xlw@ifrance.com) - xlw creator
+  Mark Joshi (mark@markjoshi.com) - extender
+  Eric Ehlers (eric.ehlers@nazcatech.be) - extender
+  Narinder Claire (narinder-claire@users.sourceforge.net) extender & xlwDotNet creator 
+  John Adcock (adcockj@users.sourceforge.net) extender & 64 bit & Automated Help Generation
+#+END_SRC
