@@ -19,16 +19,18 @@ message(" [INFO] Install library to path => XLW_INSTALL_PATH = ${XLW_INSTALL_PAT
 
 
 # Target: xlw.lib => static library 
-add_subdirectory(./xlw)
+add_subdirectory(./xlw-lib-addin)
 
 #  Target: ./bin/InterfaceGenerator.exe 
 #---------------------------------------------------------------------
-add_subdirectory(./InterfaceGenerator/)
+add_subdirectory(./tools)
 
 
 #---------------------------------------------------#
 #      Handwritten XLL Addins - Extensions          #
 #---------------------------------------------------#
+
+if(false)
 
 # Target:  xlwExample 
 #----------------------------------------
@@ -41,9 +43,9 @@ set_target_properties(xlwExample PROPERTIES SUFFIX ".xll")
 #---------------------
 add_library(xlwCommands SHARED examples/Handwritten/common_source/xlwCommands.cpp )
 target_link_libraries(xlwCommands PRIVATE xlw)
-
 set_target_properties(xlwCommands PROPERTIES SUFFIX ".xll")
 
+endif()
 
 # Install at ./bin in project ROOT directory
 #--------------------------------------------------------------------

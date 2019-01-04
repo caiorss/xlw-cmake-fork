@@ -1,4 +1,4 @@
-:: Brief:   Batch script for automatically building all targets with CMake
+:: Brief:   Batch script for automatically build and install all targets 
 :: Author:  Caio Rodrigues    
 :: ==============================================================
 @echo off

@@ -10,3 +10,4 @@ bin/*
 .vs
 *.back
 *.cxx                                             
+/examples/sample-project/cache

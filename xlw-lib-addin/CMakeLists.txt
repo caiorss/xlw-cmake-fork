@@ -3,6 +3,14 @@ project(xlw_cmake_library)
 set(CMAKE_CXX_STANDARD 14)     
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+# If the following variable is not defined. The static library xlw.lib is 
+# installed at %USERPROFILE%\xlw-lib which will expand to 
+# C:\\Users\<MYUSER>\xlw-lib 
+#==================================================================
+if(NOT DEFINED ${XLW_INSTALL_PATH})
+  set(XLW_INSTALL_PATH "$ENV{USERPROFILE}/xlw-lib")
+endif()
+
 set(XLW_SOURCE_PATH  src)
 set(XLW_INCLUDE_PATH include)
 
@@ -14,7 +22,6 @@ file(GLOB XLW_CPP_FILES ${XLW_SOURCE_PATH}/*.cpp)
 add_library(xlw  ${XLW_CPP_FILES} ${XLW_INCLUDE_PATH}/xlw/xlw.def)
 target_include_directories(xlw PUBLIC ${XLW_INCLUDE_PATH})
 set_source_files_properties(xlw.def PROPERTIES HEADER_FILE_ONLY TRUE)
-
 
 #install(EXPORT)
 
