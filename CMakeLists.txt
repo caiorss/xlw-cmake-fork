@@ -26,12 +26,13 @@ add_subdirectory(./xlw-lib-addin)
 add_subdirectory(./tools)
 
 
+install(FILES XLWFunctions.cmake DESTINATION ${XLW_INSTALL_PATH})
+
 #---------------------------------------------------#
 #      Handwritten XLL Addins - Extensions          #
 #---------------------------------------------------#
 
 if(false)
-
 # Target:  xlwExample 
 #----------------------------------------
 add_library(xlwExample SHARED examples/Handwritten/common_source/xlwExample.cpp )
