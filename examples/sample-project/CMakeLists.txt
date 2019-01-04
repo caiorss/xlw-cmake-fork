@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-project(xlw_cmake_fork)
+project(xlw_smaple_addin)
 set(CMAKE_CXX_STANDARD 14)     
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
