@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.9)
-project(xlw_cmake_fork)
+project(xlw_InterfaceGenerator)
 set(CMAKE_CXX_STANDARD 14)     
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
 # set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 # set(UILD_SHARED_LIBS TRUE)
-
 
 #  Target: ./bin/InterfaceGenerator.exe 
 #---------------------------------------------------------------------
@@ -16,4 +15,4 @@ add_executable(InterfaceGenerator ${SRC_FILES})
 
 
 install(TARGETS InterfaceGenerator
-        DESTINATION ${CMAKE_CURRENT_LIST_DIR}/bin)
+        DESTINATION ${XLW_INSTALL_PATH}/bin)
