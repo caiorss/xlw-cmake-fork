@@ -118,8 +118,8 @@ int main(int argc, char *argv[])
 				PushBack(managed_outputfile_h,libName[i]);
 			}
 
-			outputfile += ".cpp";
-			managed_outputfile_cpp = managed_outputfile_h + ".cpp";
+			outputfile += ".cxx";
+			managed_outputfile_cpp = managed_outputfile_h + ".cxx";
 			managed_outputfile_h +=".h";
 		}
 
