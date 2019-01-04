@@ -17,6 +17,7 @@
 #
 #=======================================================================#
 
+
 if(NOT DEFINED ${XLW_INSTALL_PATH})
   set(XLW_INSTALL_PATH "$ENV{USERPROFILE}/xlw-lib")
 endif()
@@ -44,15 +45,23 @@ endfunction()
 
 
 function(interfaceGenerator outputFile  inputFile)
+  # baseName:  File name without extension and path.
   get_filename_component(baseName ${inputFile} NAME_WE)
-  set(generated_file ${CMAKE_CURRENT_SOURCE_DIR}/xlw${baseName}.cxx)
+  # absDir: Absolute directory path 
+  get_filename_component(absFilePath   ${inputFile}   ABSOLUTE DIRECTORY)
+  get_filename_component(absDir        ${absFilePath} DIRECTORY)
+  set(generated_file ${absDir}/xlw${baseName}.cxx)
 
+ #==> Enable the following commands for debugging. 
+ # message(" [INFO XLWFunctions.cmake] => File path = ${absFilePath}")
+ # message(" [INFO XLWFunctions.cmake] => Generating file = ${generated_file}")
+  
   add_custom_command(
     OUTPUT   ${generated_file}
-    COMMAND  ${XLW_INSTALL_PATH}/bin/InterfaceGenerator.exe mylib.h 
-    DEPENDS  mylib.h
-    COMMENT " [INFO] Generating XLW interface file "
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND  ${XLW_INSTALL_PATH}/bin/InterfaceGenerator.exe ${absFilePath}
+    DEPENDS  ${inputFile}
+    COMMENT " [INFO] Generating XLW interface file at absDir = ${absDir} "
+    WORKING_DIRECTORY ${absDir}
   ) 
   set(${outputFile} ${generated_file} PARENT_SCOPE)
 endfunction()
