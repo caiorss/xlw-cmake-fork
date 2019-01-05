@@ -11,4 +11,17 @@ target. If the Excel version is 32 bits, the XLL addin must also be
 compiled for 32 bits target, otherwise, Excel will not be able to load
 the addin.
 
-The Addins have been configured for 32 bits target.
+The build.bat files are set to build Addins to 32 bits target by
+default, but it can be changed by the line:
+
+#+BEGIN_SRC sh 
+  $ cmake -H. -Bcache -G "Visual Studio 15 2017" 
+#+END_SRC
+
+with: 
+
+#+BEGIN_SRC sh 
+  $ cmake -H. -Bcache -G "Visual Studio 15 2017 Win64"
+#+END_SRC
+
+
