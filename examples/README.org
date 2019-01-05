@@ -1,0 +1,14 @@
+Contains XLW framework example projects, managed by CMake, for creating Excel XLL Addins.
+
+Note 1: Not all projects have been converted to CMake yet. To build a
+project, it is just necessary to have MSVC-2017 development tools and
+CMake. Projects can built without IDE by running the batch script
+build.bat or by clicking at them.
+
+Note 2: XLL Addins are shared libraries, so, if the current Excel
+version is 64 bits, the XLL addin must be compiled for 64 bits
+target. If the Excel version is 32 bits, the XLL addin must also be
+compiled for 32 bits target, otherwise, Excel will not be able to load
+the addin.
+
+The Addins have been configured for 32 bits target.
