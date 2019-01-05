@@ -23,6 +23,32 @@ add_library(xlw  ${XLW_CPP_FILES} ${XLW_INCLUDE_PATH}/xlw/xlw.def)
 target_include_directories(xlw PUBLIC ${XLW_INCLUDE_PATH})
 set_source_files_properties(xlw.def PROPERTIES HEADER_FILE_ONLY TRUE)
 
+# Check whether compilation is set for MSVC ("Visual" C++) 32 bits target (x86)
+if(MSVC AND NOT CMAKE_CL_64)
+  # The generated file will be  xlw-msvc-x86.lib 
+  set_target_properties(xlw PROPERTIES OUTPUT_NAME "xlw-msvc-x86")
+endif()
+
+# Check whether compilation is set for MSVC (Visual C++) 32 bits target (x64)
+if(MSVC AND CMAKE_CL_64)
+  # The generated file will be  xlw-msvc-x64.lib 
+  set_target_properties(xlw PROPERTIES OUTPUT_NAME "xlw-msvc-x64")
+endif()
+
+# Check whether current compiler is MINGW set for 32 bits target (x86)
+if(MINGW AND NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+  set_target_properties(xlw PROPERTIES OUTPUT_NAME "xlw-mingw-x86")
+endif()
+
+# Check whether current compiler is MINGW set for 32 bits target (x64)
+if(MINGW AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+  set_target_properties(xlw PROPERTIES OUTPUT_NAME "xlw-mingw-x64")
+endif()
+
+get_target_property(XLW_OUTPUT_FILE xlw  OUTPUT_NAME)
+message(" [INFO] {XWL-LIB-ADDIN} XLW target output file = \"${XLW_OUTPUT_FILE}.lib\" ")
+
+
 #install(EXPORT)
 
 install(TARGETS xlw DESTINATION ${XLW_INSTALL_PATH}/lib)
