@@ -35,11 +35,36 @@ function(add_xll_addin )
   string(REPLACE ";" " " source_list_str "${source_list}")
   # set(source_list ${source_list})
   # separate_arguments(source_list)
+
+
+  # Check whether compilation is set for MSVC ("Visual" C++) 32 bits target (x86)
+  if(MSVC AND NOT CMAKE_CL_64)
+    # The generated file will be  xlw-msvc-x86.lib 
+    set(XLW_LIBRARY "xlw-msvc-x86.lib")
+  # Check whether compilation is set for MSVC (Visual C++) 32 bits target (x64)
+  elseif(MSVC AND CMAKE_CL_64)
+    # The generated file will be  xlw-msvc-x64.lib 
+    set(XLW_LIBRARY "xlw-msvc-x64.lib")
+  # Check whether current compiler is MINGW set for 32 bits target (x86)
+  elseif(MINGW AND NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(XLW_LIBRARY "libxlw-mingw-x86.a")
+  # Check whether current compiler is MINGW set for 64 bits target (x64)
+  elseif(MINGW AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(XLW_LIBRARY "libxlw-mingw-x64.a")
+  else()
+    message(FATAL_ERROR " [ERROR] Not set to build library to this compiler. Only MSVC (VC++) or Mingw are supported.")
+  endif()
+
+  set(XLW_LIBRARY_PATH ${XLW_INSTALL_PATH}/lib/${XLW_LIBRARY})
+  
+  if(NOT EXISTS ${XLW_LIBRARY_PATH})
+    message(FATAL ERROR " [ERROR] File ${XLW_LIBRARY_PATH} not built for this compiler.")
+  endif()
   
   message("source_list = ${source_list_str} ")
   add_library(${target} SHARED ${source_list})
   target_include_directories(${target} PRIVATE  ${XLW_INSTALL_PATH}/include ".")
-  target_link_libraries(${target} PRIVATE ${XLW_INSTALL_PATH}/lib/xlw.lib)
+  target_link_libraries(${target} PRIVATE ${XLW_LIBRARY_PATH})
   set_target_properties(${target} PROPERTIES SUFFIX ".xll") 
 endfunction()
 
@@ -51,7 +76,7 @@ function(interfaceGenerator outputFile  inputFile)
   get_filename_component(absFilePath   ${inputFile}   ABSOLUTE DIRECTORY)
   get_filename_component(absDir        ${absFilePath} DIRECTORY)
   set(generated_file ${absDir}/xlw${baseName}.cxx)
-
+  
  #==> Enable the following commands for debugging. 
  # message(" [INFO XLWFunctions.cmake] => File path = ${absFilePath}")
  # message(" [INFO XLWFunctions.cmake] => Generating file = ${generated_file}")
