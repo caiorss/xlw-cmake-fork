@@ -7,6 +7,10 @@ project(FirstProject)
 set(CMAKE_CXX_STANDARD 14)     
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+if(MINGW)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" CACHE STRING "c++ flags") 
+endif()
+
 # Path to file XLWFunctions.cmake which contains
 # functions encapsulating CMAke commands for building
 # Excel XLL Addins with XLW framework.
